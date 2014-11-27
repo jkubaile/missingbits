@@ -10,6 +10,8 @@ It was created for a site which uses 1, 3 or 9 zopes depending on a set of condi
 missingbits:range
 -------------------
 
+_Note:_ this is a fixed version of missingbits to work with current buildout versions. Just use <0> instead of {0}.
+
 This recipe takes a string and will make a list out of it. For example, where as you
 could write::
 
@@ -214,5 +216,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
