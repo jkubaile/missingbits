@@ -98,16 +98,17 @@ class Range(object):
         start = int(options.get("start", 0))
         stop = int(options["stop"])
         step = int(options.get("step", 1))
+        joiner = options.get('joiner', '\n')
 
         for key in options.keys():
-            if key in ("recipe", "start", "stop", "step"):
+            if key in ("recipe", "start", "stop", "step", "joiner"):
                 continue
 
-            lst = [options[key].replace("{0}", str(i)).replace("$$", "$") for i in range(start, stop, step)]
-            options[key + ".forward"] = "\n".join(lst)
+            lst = [options[key].replace("<0>", str(i)).replace("$$", "$") for i in range(start, stop, step)]
+            options[key + ".forward"] = joiner.join(lst)
 
             lst.reverse()
-            options[key + ".reverse"] = "\n".join(lst)
+            options[key + ".reverse"] = joiner.join(lst)
 
     def install(self):
         return ()
@@ -119,15 +120,14 @@ class Cloner(object):
 
     def __init__(self, buildout, name, options):
         template = buildout._raw[options["template"]]
-
         start = int(options.get("start", 0))
         stop = int(options["stop"])
         step = int(options.get("step", 1))
 
         parts = []
         for i in range(start, stop, step):
-            name = options["template"].replace("{0}", str(i)).replace("$$", "$")
-            config = dict((k, v.replace("{0}", str(i)).replace("$$","$")) for (k, v) in template.iteritems())
+            name = options["template"].replace("<0>", str(i)).replace("$$", "$")
+            config = dict((k, v.replace("<0>", str(i)).replace("$$","$")) for (k, v) in template.iteritems())
 
             buildout._raw[name] = config
 
@@ -155,4 +155,3 @@ class Echo(object):
         return ()
 
     update = install
-
